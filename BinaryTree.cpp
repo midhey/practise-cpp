@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <queue>
 #include <vector>
 #include <iomanip>
@@ -12,7 +12,7 @@ public:
     binaryTreeNode* left, * right;
     int data;
 
-    binaryTreeNode(int data=NULL, binaryTreeNode *left=nullptr, binaryTreeNode *right=nullptr) {
+    binaryTreeNode(int data = NULL, binaryTreeNode* left = nullptr, binaryTreeNode* right = nullptr) {
         this->data = data;
         this->left = left;
         this->right = right;
@@ -21,7 +21,7 @@ public:
 
 class binaryTree {
 public:
-    
+
     binaryTree() {
         this->treeRoot = nullptr;
     }
@@ -55,7 +55,7 @@ public:
         if (treeRoot == nullptr) throw "Root is empty";
         if (node->right) printTree(node->right, indent + 4);
         if (indent) cout << setw(indent) << ' ';
-        if (node->right) cout<< "  /\n" << setw(indent) << ' ';
+        if (node->right) cout << "  /\n" << setw(indent) << ' ';
         cout << node->data << " \n";
         if (node->left) {
             cout << setw(indent) << " " << " \\\n";
@@ -81,7 +81,7 @@ public:
                 temp_level++;
             }
             queue.pop();
-            if (queue.size()==0) break;
+            if (queue.size() == 0) break;
         }
 
         level = temp_level++;
@@ -92,9 +92,7 @@ public:
     void findItemPath(binaryTree* tree, int findItem) {
         queue <int> queue;
 
-        queue = findItems(tree, this->treeRoot, findItem, queue);
-
-        printPathToItem(queue);
+        findItems(tree, this->treeRoot, findItem, queue);
     }
 
 private:
@@ -115,29 +113,30 @@ private:
         else return false;
     }
 
-    queue<int> findItems(binaryTree* tree, binaryTreeNode* node, int findItem, queue<int> queue) {
+    void findItems(binaryTree* tree, binaryTreeNode* node, int findItem, queue<int> queue) {
         if (!tree->treeRoot) throw "Tree is empty";
         else {
             if (node) {
                 while (node->data != findItem) {
                     if (findItem < node->data) {
                         queue.push(node->data);
-                        findItems(tree, node->left, findItem, queue);
+                        node = node->left;
                     }
                     else {
                         queue.push(node->data);
-                        findItems(tree, node->right, findItem, queue);
+                        node = node->right;
                     }
                 }
             }
             else throw "Item not found";
-            return queue;
         }
-        
+
+        printPathToItem(queue);
     }
 
     void printPathToItem(queue<int> queue) {
-        for (int i = 0; i < queue.size(); i++)
+        int size = queue.size();
+        for (int i = 0; i < size; i++)
         {
             cout << i << " = " << queue.front();
             queue.pop();
